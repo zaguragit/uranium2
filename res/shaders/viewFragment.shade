@@ -1,0 +1,9 @@
+in vec2 passTextureCoord
+uni sampler2D tex
+uni vec3 ambientLight
+
+out vec4 outColor
+
+main {
+    outColor = vec4(ambientLight, 1.0) * texture(tex, passTextureCoord)
+}
