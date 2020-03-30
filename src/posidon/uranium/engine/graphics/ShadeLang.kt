@@ -5,7 +5,7 @@ object ShadeLang {
         val builder = StringBuilder("#version 420 core\n")
         val lineBuilder = StringBuilder()
         var parenthesesDepth = 0
-        for (char in text) when (char) {
+        for (char in text.replace("    ", "\t")) when (char) {
             '\n' -> {
                 val line = lineBuilder.toString()
                 lineBuilder.clear()
@@ -18,6 +18,7 @@ object ShadeLang {
                 if (!(line.endsWith('{') || line.endsWith('}') || line.endsWith('(') ||
                     line.endsWith(';') || line.replace(" ", "").replace("\t", "").isEmpty() || parenthesesDepth != 0)) builder.append(';')
             }
+            '\t' -> {}
             else -> {
                 when (char) {
                     '(' -> parenthesesDepth++

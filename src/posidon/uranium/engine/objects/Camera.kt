@@ -94,10 +94,7 @@ object Camera {
                 else -> packet.fly = -1
             }
         }
-        if (packet != null) {
-            Client.send(packet)
-            //Window.title = "uranium --- position = $position"
-        }
+        if (packet != null) Client.send(packet)
         viewMatrix = Matrix4f.view(position, rotation)
     }
 
@@ -106,13 +103,14 @@ object Camera {
         val rotY = Math.toRadians((rotation.y - 180).toDouble())
         val cosRY = cos(rotY)
         val sinRY = sin(rotY)
-        val cosRX = cos(Math.toRadians(rotation.x.toDouble()))
-        val sinRX = sin(Math.toRadians(rotation.x.toDouble()))
+        val rotX = Math.toRadians(rotation.x.toDouble())
+        val cosRX = cos(rotX)
+        val sinRX = sin(rotX)
         val x = (posRelToCam.x * cosRY - posRelToCam.z * sinRY) * cosRX + posRelToCam.y * sinRX
         val z = (posRelToCam.z * cosRY + posRelToCam.x * sinRY) * cosRX + posRelToCam.y * sinRX
         val y = posRelToCam.y * cosRX - z * sinRX
-        val maxXOffset: Double = z * Window.width / Window.height + Chunk.SIZE * 2
-        val maxYOffset = z * cosRX + posRelToCam.y * sinRX + Chunk.SIZE * 2
+        val maxXOffset: Double = z * Window.width / Window.height + Chunk.SIZE * 1.5
+        val maxYOffset = z * cosRX + posRelToCam.y * sinRX + Chunk.SIZE * 1.5
         return z > -Chunk.SIZE * 2 && x < maxXOffset && x > -maxXOffset && y < maxYOffset && y > -maxYOffset
     }
 }

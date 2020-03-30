@@ -1,5 +1,6 @@
-in vec2 passTextureCoord
+in vec2 uv
 in float visibility
+
 uni sampler2D tex
 uni vec3 skyColor
 uni vec3 ambientLight
@@ -8,5 +9,5 @@ uni float emission
 out vec4 outColor
 
 main {
-    outColor = mix(vec4(skyColor, 1.0), vec4(ambientLight * (emission + 1), 1.0) * texture(tex, passTextureCoord), visibility)
+    outColor = mix(vec4(skyColor, 1.0), vec4(ambientLight * (emission + 1), 1.0) * texture(tex, uv), visibility)
 }

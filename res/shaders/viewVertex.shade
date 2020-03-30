@@ -1,10 +1,16 @@
-in vec3 position
-in vec2 textureCoords
-uni mat4 model
+in vec2 pos
 
-out vec2 passTextureCoord
+uni vec2 position
+uni vec2 size
+
+out vec2 uv
 
 main {
-    gl_Position = model * vec4(position, 1.0)
-    passTextureCoord = textureCoords
+    mat4 model = mat4(1.0)
+    model[3].x = position.x
+    model[3].y = position.y
+    model[0].x = size.x
+    model[1].y = size.y
+    gl_Position = model * vec4(pos, 0, 1)
+    uv = vec2(0.5 + pos.x, 0.5 - pos.y)
 }

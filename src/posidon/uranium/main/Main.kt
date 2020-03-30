@@ -3,7 +3,7 @@ package posidon.uranium.main
 import posidon.uranium.net.Client
 import posidon.uranium.engine.Window
 import posidon.uranium.engine.graphics.Renderer
-import posidon.uranium.engine.graphics.Textures
+import posidon.uranium.engine.graphics.BlockTextures
 import posidon.library.types.Vec2f
 import posidon.library.types.Vec3f
 import posidon.uranium.engine.objects.Camera
@@ -26,13 +26,19 @@ object Main {
         Window.init(800, 600)
         Renderer.init()
         val loadingScreen = LoadingScreen()
-        render()
+        Window.update()
+        Renderer.renderUI()
+        Window.swapBuffers()
         if (!Client.start("localhost", 2512)) {
             loadingScreen.setBackgroundPath("res/textures/ui/couldnt_connect.png")
-            while (Window.isOpen) render()
+            while (Window.isOpen) {
+                Window.update()
+                Renderer.renderUI()
+                Window.swapBuffers()
+            }
             kill()
         }
-        Textures.init(null)
+        BlockTextures.init(null)
         Camera.init(Vec3f(0f, 0f, 0f), Vec2f(0f, 0f))
 
         cameraThread = thread {

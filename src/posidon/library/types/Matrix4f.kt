@@ -44,9 +44,9 @@ class Matrix4f {
             return result
         }
 
-        fun translate(translation: Vec3f?): Matrix4f {
+        fun translate(translation: Vec3f): Matrix4f {
             val result = identity()
-            result[3, 0] = translation!!.x
+            result[3, 0] = translation.x
             result[3, 1] = translation.y
             result[3, 2] = translation.z
             return result
@@ -92,7 +92,7 @@ class Matrix4f {
             return result
         }
 
-        fun transform(position: Vec3f?, rotation: Vec3f, scale: Vec3f): Matrix4f {
+        fun transform(position: Vec3f, rotation: Vec3f, scale: Vec3f): Matrix4f {
             val rotX = rotate(rotation.x, Vec3f(1f, 0f, 0f))
             val rotY = rotate(rotation.y, Vec3f(0f, 1f, 0f))
             val rotZ = rotate(rotation.z, Vec3f(0f, 0f, 1f))

@@ -3,6 +3,7 @@ package posidon.uranium.net
 import posidon.uranium.engine.graphics.Renderer
 import posidon.library.types.Vec3i
 import posidon.library.util.Compressor
+import posidon.library.util.newLineUnescape
 import posidon.uranium.engine.objects.Camera
 import posidon.uranium.engine.objects.Chunk
 import posidon.uranium.main.Globals
@@ -12,9 +13,10 @@ import java.util.zip.Inflater
 
 object ReceivedPacketHandler {
 
-    private val blockDictionary = HashMap<Int, String>()
+    val blockDictionary = HashMap<Int, String>()
 
     operator fun invoke(packet: String) {
+        println("Received packet: $packet")
         val tokens = packet.split('&');
         when (tokens[0]) {
             "time" -> Globals.time = tokens[1].toDouble()
@@ -27,25 +29,16 @@ object ReceivedPacketHandler {
                 Camera.rotation.set(coords[0].toFloat(), coords[1].toFloat())
             }
             "chunk" -> {
-                val blocks = Compressor.decompressString(packet.substring(7 + tokens[1].length))
+                val blocks = Compressor.decompressString(packet.substring(7 + tokens[1].length).newLineUnescape())
                 val coords = tokens[1].substring(7).split(',')
                 val chunkPos = Vec3i(coords[0].toInt(), coords[1].toInt(), coords[2].toInt())
                 for (i in 3..blocks.lastIndex step 4) {
                     val material = (blocks[i - 3].toInt() shl 16) or blocks[i - 2].toInt()
-                    //println("{ $material -> ${blockDictionary[material] ?: "air"} }")
                     Renderer[Vec3i(
                         (i / 4) / (Chunk.SIZE * Chunk.SIZE),
                         (i / 4) / Chunk.SIZE % Chunk.SIZE,
                         (i / 4) % Chunk.SIZE
                     ), chunkPos] = if (material == -1) "" else blockDictionary[material]!!
-                }
-            }
-            "dict" -> {
-                println(tokens[1])
-                val defs = tokens[1].split(',')
-                for (def in defs) {
-                    val eqI = def.indexOf('=')
-                    blockDictionary[def.substring(0, eqI).toInt()] = def.substring(eqI + 1)
                 }
             }
             "playerInfo" -> {

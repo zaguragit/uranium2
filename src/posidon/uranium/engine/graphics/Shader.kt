@@ -59,7 +59,7 @@ class Shader(vertexPath: String, fragmentPath: String) {
 
     inline fun bind() = GL20.glUseProgram(programID)
 
-    fun kill() {
+    fun destroy() {
         GL20.glDetachShader(programID, vertexID)
         GL20.glDetachShader(programID, fragmentID)
         GL20.glDeleteShader(vertexID)

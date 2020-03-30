@@ -7,11 +7,11 @@ import org.lwjgl.opengl.GL30
 import org.lwjgl.system.MemoryUtil
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
+import java.util.*
 
-class SimpleMesh(
+class UiMesh(
     positions: FloatArray,
-    indices: IntArray,
-    uv: FloatArray
+    indices: IntArray
 ) : Mesh() {
 
     init {
@@ -29,15 +29,7 @@ class SimpleMesh(
             posBuffer.put(positions).flip()
             GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId)
             GL15.glBufferData(GL15.GL_ARRAY_BUFFER, posBuffer, GL15.GL_STATIC_DRAW)
-            GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, 0, 0)
-            // UV VBO
-            vboId = GL15.glGenBuffers()
-            vboIdList.add(vboId)
-            textCoordsBuffer = MemoryUtil.memAllocFloat(uv.size)
-            textCoordsBuffer.put(uv).flip()
-            GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboId)
-            GL15.glBufferData(GL15.GL_ARRAY_BUFFER, textCoordsBuffer, GL15.GL_STATIC_DRAW)
-            GL20.glVertexAttribPointer(1, 2, GL11.GL_FLOAT, false, 0, 0)
+            GL20.glVertexAttribPointer(0, 2, GL11.GL_FLOAT, false, 0, 0)
             // Index VBO
             vboId = GL15.glGenBuffers()
             vboIdList.add(vboId)
@@ -47,7 +39,6 @@ class SimpleMesh(
             GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL15.GL_STATIC_DRAW)
 
             GL30.glEnableVertexAttribArray(0)
-            GL30.glEnableVertexAttribArray(1)
             //GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0)
             //GL30.glBindVertexArray(0)
         } finally {
