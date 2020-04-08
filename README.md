@@ -1,9 +1,7 @@
-## Uranium (2)
+## Uranium
 My second attempt at a voxel game (client)
 
-The server software is proprietary and will stay that way (at least partially).
-
-In the future, there will be a public server available for testing the client.
+The server software is proprietary for now.
 
 ### License
 - The code is under [Apache 2](LICENSE)
