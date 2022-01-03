@@ -1,8 +1,6 @@
 ## Uranium
 My second attempt at a voxel game (client)
 
-The server software is proprietary for now.
-
 ### License
 - The code is under [Apache 2](LICENSE)
 
